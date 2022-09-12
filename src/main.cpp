@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <TB6612FNG.h>
-
+#include<TalkyBoi.h>
 
 #define AIN1 25
 #define AIN2 26
@@ -17,6 +17,7 @@ Tb6612fng motor(STBY, AIN1, AIN2, PWMA);
 void setup() {
   Serial.begin(115200);
   motor.begin();
+  WIFI_init();
   pinMode(potPin,INPUT);
 }
 

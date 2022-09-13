@@ -26,7 +26,6 @@ void loop() {
   potValue = analogRead(potPin);
   potMap = map(potValue, 0,ADC_MAX,0,255);
   motor.drive(potMap, 100);
-
   int currentTime = time - millis();
   //Serial.print(currentTime);
 }

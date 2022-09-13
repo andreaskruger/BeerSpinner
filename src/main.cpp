@@ -6,7 +6,7 @@
 #define AIN2 26
 #define PWMA 33
 #define STBY 32
-#define potPin 36
+#define potPin 15
 #define ADC_MAX 4096
 
 int potValue = 0;

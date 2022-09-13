@@ -10,17 +10,21 @@ typedef struct struct_message{
  
 struct_message msg_to_send;
 struct_message msg_incoming;
+
+//Callback for when data is sent.
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
     Serial.print("\r\nLast Packet Send Status:\t");
     Serial.print(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success: " : "Delivery Fail: ");
     status == ESP_NOW_SEND_SUCCESS ? succ++ :error++;
     Serial.println(error);
 }
+//Callback for when data is recieved
+//use msg_incoming for data recieved
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   memcpy(&msg_incoming, incomingData, sizeof(msg_incoming));
 }
 
-void WIFI_init(){
+void WIFI_init(){ 
     WiFi.mode(WIFI_STA);
   if (esp_now_init() != ESP_OK) {
     Serial.println("Error initializing ESP-NOW");
@@ -40,7 +44,12 @@ void WIFI_init(){
   }
 
   esp_now_register_recv_cb(OnDataRecv);
-    WiFi.mode(WIFI_MODE_STA);
-    Serial.println(WiFi.macAddress());
+  WiFi.mode(WIFI_MODE_STA);
+  Serial.println(WiFi.macAddress());
+}
+//Use this to send a WIFI package, struct msg_to_send is filld with whatever
+//needs to be sent.
+void send(){
+  esp_err_t result = esp_now_send(broadcastAdress, (uint8_t *) &msg_to_send, sizeof(msg_to_send));
 }
 
